@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="budbee" translate="label" type="text" sortOrder="501" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Budbee</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_key" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Budbee API Key</label>
+                </field>
+                <field id="api_secret" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Budbee API Secret</label>
+                </field>
+                <field id="collection_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Budbee Collection ID</label>
+                </field>
+                <field id="dynamic_interval_home" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Dynamic Delivery Time Home Deliveries</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, the delivery time will be calculated and shown with a time period on the day. Example: 24. Feb. 16:00-22:30</comment>
+                </field>
+                <field id="static_interval_home" translate="label" type="text" sortOrder="31" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Static Delivery Time Home Deliveries</label>
+                    <comment>Input a static delivery time to be shown in checkout. Example: "1-3 Days Delivery"</comment>
+                    <depends>
+                        <field id="dynamic_interval_home">0</field>
+                    </depends>
+                </field>
+                <field id="dynamic_interval_box" translate="label" type="select" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Dynamic Delivery Time ParcelShop</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enabled, the delivery time will be calculated and shown with a time period on the day. Example: 24. Feb. 16:00-22:30</comment>
+                </field>
+                <field id="static_interval_box" translate="label" type="text" sortOrder="41" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Static Delivery Time ParcelShop Deliveries</label>
+                    <comment>Input a static delivery time to be shown in checkout. Example: "1-3 Days Delivery"</comment>
+                    <depends>
+                        <field id="dynamic_interval_box">0</field>
+                    </depends>
+                </field>
+                <field id="budbeehome_prepend_title" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prepend text to Budbeehome deliveries</label>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="61" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="delivery_types" translate="label" type="multiselect" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label><![CDATA[Select Available Delivery Methods]]></label>
+                    <source_model>Wexo\Budbee\Model\Config\Source\DeliveryOptions</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

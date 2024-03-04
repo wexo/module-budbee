@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Wexo\Budbee\Api\Carrier\BudbeeInterface" type="Wexo\Budbee\Model\Carrier\Budbee"/>
+    <preference for="Wexo\Budbee\Api\Data\ParcelShopInterface" type="Wexo\Budbee\Model\Data\ParcelShop"/>
+    <preference for="Wexo\Budbee\Api\Data\BudbeehomeInterface" type="Wexo\Budbee\Model\Data\Budbeehome"/>
+
+    <type name="Wexo\Shipping\Model\ComponentManagement">
+        <arguments>
+            <argument name="carriers" xsi:type="array">
+                <item name="budbee" xsi:type="object">Wexo\Budbee\Api\Carrier\BudbeeInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Wexo\Budbee\Model\MethodType\ParcelShop">
+        <arguments>
+            <argument name="parcelShopClass" xsi:type="string">Wexo\Budbee\Api\Data\ParcelShopInterface</argument>
+        </arguments>
+    </type>
+    <type name="Wexo\Budbee\Model\Carrier\Budbee">
+        <arguments>
+            <argument name="defaultMethodTypeHandler" xsi:type="object">Wexo\Budbee\Model\MethodType\Address</argument>
+            <argument name="methodTypeHandlers" xsi:type="array">
+                <item name="express" xsi:type="array">
+                    <item name="label" xsi:type="string">Express (Parcel Shop)</item>
+                    <item name="type" xsi:type="object">Wexo\Budbee\Model\MethodType\ParcelShop</item>
+                </item>
+                <item name="green" xsi:type="array">
+                    <item name="label" xsi:type="string">Green</item>
+                </item>
+                <item name="budbeehome" xsi:type="array">
+                    <item name="label" xsi:type="string">Budbeehome</item>
+                    <item name="type" xsi:type="object">Wexo\Budbee\Model\MethodType\Budbeehome</item>
+                </item>
+                <item name="collect_in_store" xsi:type="array">
+                    <item name="label" xsi:type="string">Collect In Store</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

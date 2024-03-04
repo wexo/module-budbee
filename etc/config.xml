@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <budbee>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Wexo\Budbee\Model\Carrier\Budbee</model>
+                <name>Budbee</name>
+                <title>Budbee</title>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.
+                </specificerrmsg>
+                <max_budbee_deliveries>5</max_budbee_deliveries>
+                <delivery_types>1,2</delivery_types>
+            </budbee>
+        </carriers>
+    </default>
+</config>
