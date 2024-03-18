@@ -158,7 +158,7 @@ class Config
         return $this->scopeConfig->getValue(
             'carriers/budbee/specificcountry',
             ScopeInterface::SCOPE_STORE
-        );
+        ) ?? '';
     }
 
     /**
