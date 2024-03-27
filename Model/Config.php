@@ -70,6 +70,14 @@ class Config
         );
     }
 
+    public function getIsProductionMode(): bool
+    {
+        return $this->scopeConfig->getValue(
+            'carriers/budbee/production_mode',
+            ScopeInterface::SCOPE_STORE
+        ) == 1;
+    }
+
     /**
      * Returns the title that is prepended to home deliveries method
      *
@@ -145,7 +153,7 @@ class Config
         return $this->scopeConfig->getValue(
             'carriers/budbee/sallowspecific',
             ScopeInterface::SCOPE_STORE
-        ) === 1;
+        ) == 0;
     }
 
     /**
@@ -158,7 +166,7 @@ class Config
         return $this->scopeConfig->getValue(
             'carriers/budbee/specificcountry',
             ScopeInterface::SCOPE_STORE
-        );
+        ) ?? '';
     }
 
     /**

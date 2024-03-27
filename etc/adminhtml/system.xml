@@ -23,6 +23,12 @@
                        showInStore="1">
                     <label>Budbee Collection ID</label>
                 </field>
+                <field id="production_mode" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Production Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to yes, the API url is https://api.budbee.com. If set to no, the API url is https://api.staging.budbee.com</comment>
+                </field>
                 <field id="dynamic_interval_home" translate="label" type="select" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Dynamic Delivery Time Home Deliveries</label>

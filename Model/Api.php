@@ -12,7 +12,8 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class Api
 {
-    const API_URL = 'https://api.budbee.com';
+    const API_URL_PROD = 'https://api.budbee.com';
+    const API_URL_STAGING = 'https://api.staging.budbee.com';
     const API_URI_BOXES = 'boxes';
     const API_URI_POSTCODE = 'postalcodes/validate';
     const API_URI_INTERVALS = 'intervals';
@@ -25,6 +26,13 @@ class Api
     const HEADER_BOXES_ALL = 'application/vnd.budbee.boxes-v1+json';
     const HEADER_ORDER_CREATE = 'application/vnd.budbee.multiple.orders-v2+json';
     const HEADER_ORDER_PARCEL_TRACKINGURL = 'application/vnd.budbee.parcels-v1+json';
+
+    /**
+     * The url to the budbee api
+     *
+     * @var string
+     */
+    private string $apiUrl;
 
     /**
      * Api constructor.
@@ -43,6 +51,7 @@ class Api
         private readonly TimezoneInterface     $timezone,
         private readonly Request               $request
     ) {
+        $this->apiUrl = $this->config->getIsProductionMode() ? self::API_URL_PROD : self::API_URL_STAGING;
     }
 
     /**
@@ -57,7 +66,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_POSTCODE,
                 $country_id,
                 $zip
@@ -82,12 +91,12 @@ class Api
      * @return array
      * @throws LocalizedException
      */
-    public function getNextDeliveryWindows($country_id, $zip, int $daysAmount = 5): array
+    public function getNextDeliveryWindows($country_id, $zip, int $daysAmount = 7): array
     {
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_INTERVALS,
                 $country_id,
                 $zip,
@@ -158,7 +167,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_BOXES,
                 self::API_URI_POSTCODE,
                 $countryCode,
@@ -245,7 +254,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_MULTIPLE_ORDERS
             ]
         );
@@ -306,7 +315,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_MULTIPLE_ORDERS
             ]
         );
@@ -336,7 +345,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_MULTIPLE_ORDERS,
                 $budbeeOrderId,
                 self::API_URI_PARCELS
@@ -382,7 +391,7 @@ class Api
         $requestUrl = implode(
             '/',
             [
-                self::API_URL,
+                $this->apiUrl,
                 self::API_URI_PARCELS,
                 $parcelId,
                 self::API_URI_TRACKING

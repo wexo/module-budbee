@@ -5,6 +5,7 @@
         <carriers>
             <budbee>
                 <active>1</active>
+                <production_mode>1</production_mode>
                 <sallowspecific>0</sallowspecific>
                 <model>Wexo\Budbee\Model\Carrier\Budbee</model>
                 <name>Budbee</name>
