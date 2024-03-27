@@ -227,12 +227,13 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                     $requestData['dest_postcode']
                 );
 
+                $deliveryWindowTitle = array_first($deliveryWindows) ?? [];
                 /** @var Method $method */
                 $method = $this->methodFactory->create();
                 $method->setData('carrier', $this->_code);
                 $method->setData('carrier_title', $this->getTitle());
                 $method->setData('method', $this->makeMethodCode($rate));
-                $method->setData('method_title', $rate->getTitle() . $this->getBoxMethodTitle(array_first($deliveryWindows)));
+                $method->setData('method_title', $rate->getTitle() . $this->getBoxMethodTitle($deliveryWindowTitle));
                 $method->setPrice(
                     $request->getFreeShipping() && $rate->getAllowFree() ? 0 : $rate->getPrice()
                 );
