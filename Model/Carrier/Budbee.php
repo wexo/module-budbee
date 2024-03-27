@@ -227,7 +227,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                     $requestData['dest_postcode']
                 );
 
-                $deliveryWindowTitle = array_first($deliveryWindows) ?? [];
+                $deliveryWindowTitle = $deliveryWindows[array_key_first($deliveryWindows)] ?? [];
                 /** @var Method $method */
                 $method = $this->methodFactory->create();
                 $method->setData('carrier', $this->_code);
