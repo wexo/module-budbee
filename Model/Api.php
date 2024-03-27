@@ -76,6 +76,7 @@ class Api
         try {
             $this->request->makeRequest($requestUrl, self::HEADER_POSTCODE_VALIDATE);
         } catch (LocalizedException) {
+            $this->logger->debug('Budbee: The postcode failed validation: ' . $requestUrl);
             return false;
         }
 
@@ -107,6 +108,7 @@ class Api
         $result = $this->request->makeRequest($requestUrl, self::HEADER_DELIVERY_INTERVAL);
 
         if (isset($result['status_code']) && $result['status_code'] !== 200) {
+            $this->logger->debug('Budbee: Could not find delivery windows: ' . $requestUrl);
             return [];
         }
 
@@ -178,6 +180,7 @@ class Api
         $result = $this->request->makeRequest($requestUrl, self::HEADER_BOXES_ALL);
 
         if ($result['status_code'] !== 200) {
+            $this->logger->debug('Budbee: Could not find any available lockers: ' . $requestUrl);
             return [];
         }
 
