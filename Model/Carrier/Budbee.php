@@ -356,7 +356,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
      */
     public function getImageUrl(ShippingMethodInterface $shippingMethod, Rate $rate, $typeHandler): string
     {
-        return $this->assetRepository->createAsset('Wexo_Budbee::images/budbee.png', [
+        return $this->assetRepository->createAsset('Wexo_Budbee::images/budbee.svg', [
             'area' => Area::AREA_FRONTEND
         ])->getUrl();
     }

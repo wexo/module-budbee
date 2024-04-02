@@ -65,7 +65,7 @@ class Budbeehome extends AbstractParcelShop implements MethodTypeHandlerInterfac
      */
     public function getTitle(): string
     {
-        return __('Budbeehome');
+        return __('Budbee Home');
     }
 
     /**

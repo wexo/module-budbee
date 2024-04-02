@@ -63,7 +63,7 @@ class ParcelShop extends AbstractParcelShop implements MethodTypeHandlerInterfac
      */
     public function getTitle(): string
     {
-        return __('Parcel Shop');
+        return __('Budbee Box');
     }
 
     /**

@@ -22,18 +22,12 @@
             <argument name="defaultMethodTypeHandler" xsi:type="object">Wexo\Budbee\Model\MethodType\Address</argument>
             <argument name="methodTypeHandlers" xsi:type="array">
                 <item name="express" xsi:type="array">
-                    <item name="label" xsi:type="string">Express (Parcel Shop)</item>
+                    <item name="label" xsi:type="string">Budbee Box</item>
                     <item name="type" xsi:type="object">Wexo\Budbee\Model\MethodType\ParcelShop</item>
                 </item>
-                <item name="green" xsi:type="array">
-                    <item name="label" xsi:type="string">Green</item>
-                </item>
                 <item name="budbeehome" xsi:type="array">
-                    <item name="label" xsi:type="string">Budbeehome</item>
+                    <item name="label" xsi:type="string">Budbee Home</item>
                     <item name="type" xsi:type="object">Wexo\Budbee\Model\MethodType\Budbeehome</item>
-                </item>
-                <item name="collect_in_store" xsi:type="array">
-                    <item name="label" xsi:type="string">Collect In Store</item>
                 </item>
             </argument>
         </arguments>
