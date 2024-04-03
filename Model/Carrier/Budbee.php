@@ -222,18 +222,12 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                     continue;
                 }
 
-                $deliveryWindows = $this->budbeeApi->getNextDeliveryWindows(
-                    $requestData['dest_country_id'],
-                    $requestData['dest_postcode']
-                );
-
-                $deliveryWindowTitle = $deliveryWindows[array_key_first($deliveryWindows)] ?? [];
                 /** @var Method $method */
                 $method = $this->methodFactory->create();
                 $method->setData('carrier', $this->_code);
                 $method->setData('carrier_title', $this->getTitle());
                 $method->setData('method', $this->makeMethodCode($rate));
-                $method->setData('method_title', $rate->getTitle() . $this->getBoxMethodTitle($deliveryWindowTitle));
+                $method->setData('method_title', $rate->getTitle() . $this->getBoxMethodTitle($availableLockers));
                 $method->setPrice(
                     $request->getFreeShipping() && $rate->getAllowFree() ? 0 : $rate->getPrice()
                 );
@@ -263,7 +257,6 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
         $homeTitle = $this->config->getBudbeehomePrependTitle() . PHP_EOL;
         if ($this->config->getIsIntervalDynamicHome()) {
             $homeTitle .= $interval['delivery']['date'] . PHP_EOL;
-            $homeTitle .= $this->escaper->escapeHtml(__('in the period')) . PHP_EOL;
             $homeTitle .= $interval['delivery']['start'] . '-' . $interval['delivery']['stop'];
         } else {
             $homeTitle .= $this->config->getStaticIntervalHome();
@@ -274,21 +267,16 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
     /**
      * Get the method title for budbee box deliveries
      *
-     * @param array $interval
+     * @param array $availableLockers
      * @return string
      */
-    public function getBoxMethodTitle(array $interval): string
+    public function getBoxMethodTitle(array $availableLockers): string
     {
         $boxTitle = PHP_EOL;
-        if (!$interval) {
-            return $boxTitle;
-        }
         if ($this->config->getIsIntervalDynamicBox()) {
-            $boxTitle .= $interval['delivery']['date'] . PHP_EOL;
-            $boxTitle .= $this->escaper->escapeHtml(__('in the period')) . PHP_EOL;
-            $boxTitle .= $interval['delivery']['start'] . '-' . $interval['delivery']['stop'];
+            $boxTitle .= $availableLockers[0]['label'] ?? '';
         } else {
-            $boxTitle .= $this->config->getStaticIntervalBox();
+            $boxTitle .= $availableLockers[0]['name'] ?? '';
         }
         return $boxTitle;
     }
@@ -356,7 +344,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
      */
     public function getImageUrl(ShippingMethodInterface $shippingMethod, Rate $rate, $typeHandler): string
     {
-        return $this->assetRepository->createAsset('Wexo_Budbee::images/budbee.png', [
+        return $this->assetRepository->createAsset('Wexo_Budbee::images/budbee.svg', [
             'area' => Area::AREA_FRONTEND
         ])->getUrl();
     }
