@@ -30,7 +30,7 @@ define([
             let parcelShop = this.wexoShippingData().parcelShop;
             if(parcelShop){
                 let shippingMethod = this.shippingMethod();
-                let parcelShopTitle = shippingMethod.carrier_title + ' - ' + parcelShop.company_name;
+                let parcelShopTitle = shippingMethod.method_title + '\n' + parcelShop.company_name;
                 let selector = shippingMethod.carrier_code + '_' + shippingMethod.method_code;
                 document.querySelector('input[value="' + selector + '"]')
                     .parentNode

@@ -59,14 +59,14 @@ class CreateBooking implements ObserverInterface
         if (str_contains($order->getShippingMethod(), 'budbee')) {
             $shippingData = $this->json->unserialize($order->getData('wexo_shipping_data'));
 
-            if (str_contains($order->getShippingMethod(), 'budbee_express')) {
+            if (str_contains($order->getShippingMethod(), 'budbee_budbeebox')) {
                 if (!isset($shippingData['budbee']['box'])) {
                     $shippingData = $this->createOrder->box($order, $shipment);
                 } else {
                     throw new LocalizedException(__('Box delivery is already shipped'));
                 }
-
-                $parcel = array_first($shippingData['budbee']['box']['parcels']);
+                $shippingDataParcels = $shippingData['budbee']['box']['parcels'];
+                $parcel = $shippingDataParcels[array_key_first($shippingDataParcels)];
                 $trackingData = $this->json->unserialize($this->api->getParcelTrackingUrl($parcel['packageId']));
 
                 $this->trackingUrl->addToShipment($shipment, $trackingData['url']);

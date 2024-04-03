@@ -9,6 +9,7 @@ use Magento\Sales\Model\Order\Shipment;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\Stdlib\DateTime\DateTimeFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Locale\ResolverInterface;
 
 class Api
 {
@@ -42,6 +43,7 @@ class Api
      * @param DateTimeFactory $dateTimeFactory
      * @param TimezoneInterface $timezone
      * @param Request $request
+     * @param ResolverInterface $localeResolver
      */
     public function __construct(
         private readonly Json                  $jsonSerializer,
@@ -49,7 +51,8 @@ class Api
         private readonly Config                $config,
         private readonly DateTimeFactory       $dateTimeFactory,
         private readonly TimezoneInterface     $timezone,
-        private readonly Request               $request
+        private readonly Request               $request,
+        private readonly ResolverInterface     $localeResolver
     ) {
         $this->apiUrl = $this->config->getIsProductionMode() ? self::API_URL_PROD : self::API_URL_STAGING;
     }
@@ -124,9 +127,20 @@ class Api
                     $unixMilis / 1000
                 )->format('H:i');
             }
-            $deliveryWindows[$key]['delivery']['date'] = $this->timezone->date(
+
+            $date = $this->timezone->date(
                 $window['delivery']['start'] / 1000
-            )->format('d. M, Y');
+            );
+
+            $formatter = new \IntlDateFormatter(
+                $this->localeResolver->getLocale(),
+                \IntlDateFormatter::FULL,
+                \IntlDateFormatter::NONE
+            );
+
+            $localizedDateString = $formatter->format($date->getTimestamp());
+
+            $deliveryWindows[$key]['delivery']['date'] = $localizedDateString;
         }
 
         return $deliveryWindows;
@@ -220,6 +234,7 @@ class Api
             ];
         }
         $billingAddress = $order->getBillingAddress();
+        $billingStreet = $billingAddress->getStreet();
         $body = [
             'collectionId' => (int) $this->config->getCollectionId(),
             'cart' => [
@@ -231,7 +246,7 @@ class Api
                 'telephoneNumber' => $billingAddress->getTelephone(),
                 'email' => $billingAddress->getEmail(),
                 'address' => [
-                    'street' => array_first($billingAddress->getStreet()),
+                    'street' => $billingStreet[array_key_first($billingStreet)],
                     'postalCode' => $billingAddress->getPostcode(),
                     'city' => $billingAddress->getCity(),
                     'country' => $billingAddress->getCountryId()
@@ -294,6 +309,7 @@ class Api
             ];
         }
 
+        $billingStreet = $billingAddress->getStreet();
         $body = [
             'collectionId' => (int) $this->config->getCollectionId(),
             'cart' => [
@@ -305,7 +321,7 @@ class Api
                 'telephoneNumber' => $billingAddress->getTelephone(),
                 'email' => $billingAddress->getEmail(),
                 'address' => [
-                    'street' => array_first($billingAddress->getStreet()),
+                    'street' => $billingStreet[array_key_first($billingStreet)],
                     'postalCode' => $billingAddress->getPostcode(),
                     'city' => $billingAddress->getCity(),
                     'country' => $billingAddress->getCountryId()
@@ -359,7 +375,7 @@ class Api
 
         $parcel = $this->jsonSerializer->unserialize($response['body']);
 
-        return array_first($parcel);
+        return $parcel[array_key_first($parcel)];
     }
 
     /***

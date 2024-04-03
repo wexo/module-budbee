@@ -21,7 +21,7 @@
         <arguments>
             <argument name="defaultMethodTypeHandler" xsi:type="object">Wexo\Budbee\Model\MethodType\Address</argument>
             <argument name="methodTypeHandlers" xsi:type="array">
-                <item name="express" xsi:type="array">
+                <item name="budbeebox" xsi:type="array">
                     <item name="label" xsi:type="string">Budbee Box</item>
                     <item name="type" xsi:type="object">Wexo\Budbee\Model\MethodType\ParcelShop</item>
                 </item>
