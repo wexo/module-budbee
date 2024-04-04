@@ -91,20 +91,7 @@ class ParcelShop extends AbstractParcelShop implements MethodTypeHandlerInterfac
         $parcelShop = $this->objectFactory->create($this->parcelShopClass, []);
         $this->dataObjectHelper->populateWithArray($parcelShop, $shippingData['parcelShop'], $this->parcelShopClass);
 
-        if ($parcelShop->getNumber()) {
-            $order->getShippingAddress()->addData([
-                OrderAddressInterface::COMPANY => $parcelShop->getCompanyName(),
-                OrderAddressInterface::STREET => [
-                    $parcelShop->getStreetName(),
-                    $parcelShop->getNumber()
-                ],
-                OrderAddressInterface::POSTCODE => $parcelShop->getZipCode(),
-                OrderAddressInterface::CITY => $parcelShop->getCity(),
-                OrderAddressInterface::REGION => '',
-                OrderAddressInterface::FAX => '',
-                'save_in_address_book' => 0,
-            ]);
-        } else {
+        if (!$parcelShop->getNumber()) {
             throw new LocalizedException(__('Service Point number was not found!'));
         }
     }
