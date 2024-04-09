@@ -12,6 +12,9 @@ class Config
      */
     private $scopeConfig;
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     */
     public function __construct(
         ScopeConfigInterface $scopeConfig
     ) {
@@ -204,19 +207,6 @@ class Config
     {
         return (bool) $this->scopeConfig->getValue(
             'carriers/budbee/dynamic_interval_box',
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * Checks if static interval is set for box deliveries
-     *
-     * @return string
-     */
-    public function getStaticIntervalBox(): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            'carriers/budbee/static_interval_box',
             ScopeInterface::SCOPE_STORE
         );
     }

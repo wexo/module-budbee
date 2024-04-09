@@ -5,7 +5,6 @@ namespace Wexo\Budbee\Model\Carrier;
 use Exception;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -66,27 +65,27 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
      * @param Repository $assetRepository
      * @param Json $json
      * @param StoreManagerInterface $storeManager
-     * @param MethodTypeHandlerInterface|null $defaultMethodTypeHandler
      * @param Escaper $escaper
+     * @param MethodTypeHandlerInterface|null $defaultMethodTypeHandler
      * @param array $methodTypeHandlers
      * @param array $data
      */
     public function __construct(
-        ScopeConfigInterface       $scopeConfig,
-        ErrorFactory               $rateErrorFactory,
-        LoggerInterface            $logger,
-        RateManagement             $rateManagement,
-        MethodFactory              $methodFactory,
-        ResultFactory              $resultFactory,
-        Api                        $budbeeApi,
-        Config                     $config,
-        Repository                 $assetRepository,
-        Json                       $json,
-        StoreManagerInterface      $storeManager,
-        private readonly Escaper   $escaper,
-        MethodTypeHandlerInterface $defaultMethodTypeHandler = null,
-        array                      $methodTypeHandlers = [],
-        array                      $data = []
+        ScopeConfigInterface          $scopeConfig,
+        ErrorFactory                  $rateErrorFactory,
+        LoggerInterface               $logger,
+        RateManagement                $rateManagement,
+        MethodFactory                 $methodFactory,
+        ResultFactory                 $resultFactory,
+        Api                           $budbeeApi,
+        Config                        $config,
+        Repository                    $assetRepository,
+        Json                          $json,
+        StoreManagerInterface         $storeManager,
+        private readonly Escaper      $escaper,
+        MethodTypeHandlerInterface    $defaultMethodTypeHandler = null,
+        array                         $methodTypeHandlers = [],
+        array                         $data = []
     ) {
         $this->budbeeApi = $budbeeApi;
         parent::__construct(
@@ -168,11 +167,13 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                 continue;
             }
 
+            $requestData = $request->getData();
+
             if ($rate->getMethodType() === 'budbeehome') {
                 if (!in_array(self::DELIVERY_TYPE_HOME, explode(',', $this->config->getDeliveryTypes()))) {
                     continue;
                 }
-                $requestData = $request->getData();
+
                 if (!$this->budbeeApi->getIsPostcodeValidated($requestData['dest_country_id'], $requestData['dest_postcode'])) {
                     continue;
                 }
@@ -208,7 +209,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                 if (!in_array(self::DELIVERY_TYPE_BOX, explode(',', $this->config->getDeliveryTypes()))) {
                     continue;
                 }
-                $requestData = $request->getData();
+
                 if (!$this->budbeeApi->getIsPostcodeValidated($requestData['dest_country_id'], $requestData['dest_postcode'])) {
                     continue;
                 }
@@ -227,7 +228,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                 $method->setData('carrier', $this->_code);
                 $method->setData('carrier_title', $this->getTitle());
                 $method->setData('method', $this->makeMethodCode($rate));
-                $method->setData('method_title', $rate->getTitle() . $this->getBoxMethodTitle($availableLockers));
+                $method->setData('method_title', $rate->getTitle());
                 $method->setPrice(
                     $request->getFreeShipping() && $rate->getAllowFree() ? 0 : $rate->getPrice()
                 );
@@ -328,7 +329,8 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                 ->setZipCode($box['address']['postalCode'])
                 ->setLatitude($box['address']['coordinate']['latitude'])
                 ->setLongitude($box['address']['coordinate']['longitude'])
-                ->setOpeningHours($this->json->serialize($openingHours));
+                ->setOpeningHours($this->json->serialize($openingHours))
+                ->setTimeLabel($box['label'] ?? '');
 
             return $parcelShopObject;
         }, $availableBoxes);

@@ -9,7 +9,8 @@ define([
 
     return AbstractParcelShop.extend({
         defaults: {
-            parcelShopSearcher: parcelShopSearcher
+            parcelShopSearcher: parcelShopSearcher,
+            label: $t('Find a Budbee Box')
         },
 
         initialize: function () {
@@ -26,11 +27,17 @@ define([
 
         _saveParcelShop: function () {
             this._super();
-
             let parcelShop = this.wexoShippingData().parcelShop;
+            let budbeeConfig = window.checkoutConfig.budbee_config;
             if(parcelShop){
                 let shippingMethod = this.shippingMethod();
-                let parcelShopTitle = shippingMethod.method_title + '\n' + parcelShop.company_name;
+                let intervalIsDynamic = budbeeConfig.box_interval_is_dynamic
+                let parcelShopTitle = shippingMethod.method_title + '\n';
+                if (intervalIsDynamic) {
+                    parcelShopTitle += parcelShop.time_label;
+                } else {
+                    parcelShopTitle += parcelShop.company_name;
+                }
                 let selector = shippingMethod.carrier_code + '_' + shippingMethod.method_code;
                 document.querySelector('input[value="' + selector + '"]')
                     .parentNode
@@ -44,7 +51,7 @@ define([
          */
         getPopupText: function () {
             return ko.pureComputed(function () {
-                return $t('%1 service points in postcode <u>%2</u>')
+                return $t('%1 boxes in postcode <u>%2</u>')
                     .replace('%1', this.parcelShops().length)
                     .replace('%2', this.wexoShippingData().postcode);
             }, this);
