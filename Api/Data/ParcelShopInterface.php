@@ -16,4 +16,16 @@ interface ParcelShopInterface extends \Wexo\Shipping\Api\Data\ParcelShopInterfac
     const LONGITUDE = 'longitude';
     const LATITUDE = 'latitude';
     const OPENING_HOURS = 'opening_hours';
+    const TIME_LABEL = 'time_label';
+
+    /**
+     * @return string
+     */
+    public function getTimeLabel(): string;
+
+    /**
+     * @param $string
+     * @return \Wexo\Shipping\Api\Data\ParcelShopInterface
+     */
+    public function setTimeLabel($string): \Wexo\Shipping\Api\Data\ParcelShopInterface;
 }

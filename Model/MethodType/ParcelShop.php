@@ -7,7 +7,6 @@ use Magento\Framework\Data\ObjectFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Quote\Api\Data\CartInterface;
-use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Wexo\Budbee\Api\Data\ParcelShopInterface;
 use Wexo\Budbee\Model\Api;

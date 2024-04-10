@@ -150,4 +150,21 @@ class ParcelShop extends DataObject implements ParcelShopInterface
     {
         return $this->setData(static::OPENING_HOURS, $string);
     }
+
+    /**
+     * @return string
+     */
+    public function getTimeLabel(): string
+    {
+        return $this->getData(static::TIME_LABEL);
+    }
+
+    /**
+     * @param $string
+     * @return \Wexo\Shipping\Api\Data\ParcelShopInterface
+     */
+    public function setTimeLabel($string): \Wexo\Shipping\Api\Data\ParcelShopInterface
+    {
+        return $this->setData(static::TIME_LABEL, $string);
+    }
 }
