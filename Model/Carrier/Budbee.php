@@ -168,19 +168,22 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
             }
 
             $requestData = $request->getData();
+            $postCode = str_replace(' ', '', $requestData['dest_postcode']);
+            $destinationCountryId = $requestData['dest_country_id'];
+
 
             if ($rate->getMethodType() === 'budbeehome') {
                 if (!in_array(self::DELIVERY_TYPE_HOME, explode(',', $this->config->getDeliveryTypes()))) {
                     continue;
                 }
 
-                if (!$this->budbeeApi->getIsPostcodeValidated($requestData['dest_country_id'], $requestData['dest_postcode'])) {
+                if (!$this->budbeeApi->getIsPostcodeValidated($destinationCountryId, $postCode)) {
                     continue;
                 }
 
                 $deliveryWindows = $this->budbeeApi->getNextDeliveryWindows(
-                    $requestData['dest_country_id'],
-                    $requestData['dest_postcode']
+                    $destinationCountryId,
+                    $postCode
                 );
 
                 if (!$deliveryWindows) {
@@ -210,13 +213,13 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                     continue;
                 }
 
-                if (!$this->budbeeApi->getIsPostcodeValidated($requestData['dest_country_id'], $requestData['dest_postcode'])) {
+                if (!$this->budbeeApi->getIsPostcodeValidated($destinationCountryId, $postCode)) {
                     continue;
                 }
 
                 $availableLockers = $this->budbeeApi->getAvailableLockers(
-                    $requestData['dest_postcode'],
-                    $requestData['dest_country_id']
+                    $postCode,
+                    $destinationCountryId
                 );
 
                 if (!$availableLockers) {
