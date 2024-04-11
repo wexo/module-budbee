@@ -168,7 +168,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
             }
 
             $requestData = $request->getData();
-            $postCode = str_replace(' ', '', $requestData['dest_postcode']);
+            $postCode = str_replace(' ', '', $requestData['dest_postcode'] ?? '');
             $destinationCountryId = $requestData['dest_country_id'];
 
 
