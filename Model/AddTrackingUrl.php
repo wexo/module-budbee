@@ -11,6 +11,7 @@ use Magento\Sales\Model\Order\Shipment\TrackFactory;
 use Magento\Sales\Model\Order\ShipmentRepository;
 use Magento\Sales\Model\OrderRepository;
 use Wexo\Budbee\Api\Carrier\BudbeeInterface;
+use Wexo\Budbee\Model\Carrier\Budbee;
 
 class AddTrackingUrl
 {
@@ -35,15 +36,17 @@ class AddTrackingUrl
      * @throws NoSuchEntityException
      * @throws LocalizedException
      */
-    public function addToShipment(Shipment $shipment, string $trackingNumber): void
+    public function addToShipment(Shipment $shipment, string $trackingUrl): void
     {
         $order = $shipment->getOrder();
+        $trackingNumber = $this->getTrackingNumberFromUrl($trackingUrl);
         try {
             $track = $this->trackFactory->create();
             $track->addData(
                 [
                     'number' => $trackingNumber,
-                    'carrier_code' => BudbeeInterface::TYPE_NAME
+                    'carrier_code' => BudbeeInterface::TYPE_NAME,
+                    'title' => BudbeeInterface::TYPE_NAME
                 ]
             );
             $shipment->addTrack($track);
@@ -62,5 +65,17 @@ class AddTrackingUrl
                 )
             );
         }
+    }
+
+    /**
+     * Grabs the tracking value from the url
+     *
+     * @param $trackingUrl
+     * @return string
+     */
+    public function getTrackingNumberFromUrl($trackingUrl): string
+    {
+        $parts = explode('/', rtrim($trackingUrl, '/'));
+        return end($parts);
     }
 }
