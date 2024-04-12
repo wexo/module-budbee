@@ -5,6 +5,7 @@
 "FRIDAY","FRIDAY"
 "SATURDAY","SATURDAY"
 "SUNDAY","SUNDAY"
+"%1 service points", "%1 Budbee Boxes"
 "%1 boxes in postcode <u>%2</u>","%1 boxes in postcode <u>%2</u>"
 "Choose ParcelShop", "Choose Budbee Box"
 "Find a Budbee Box", "Find a Budbee Box"
@@ -13,3 +14,4 @@
 "Change Location","Change Location"
 "Choose Another ParcelShop","Choose a different Budbee Box"
 "You must choose a Service Point!","You must choose a Budbee Box!"
+"Sorry, we could not find any service points in your area","Sorry, we could not find any Budbee Box in your area"
