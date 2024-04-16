@@ -2,14 +2,13 @@
 
 namespace Wexo\Budbee\Plugin\Sales\Block\Adminhtml\Order;
 
-use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Sales\Block\Adminhtml\Order\View as OrderView;
-use Magento\Sales\Model\Order;
+use Wexo\Budbee\Model\Data\GetBudbeeDataFromOrder;
 
 class PrintAllLabelsButton
 {
     public function __construct(
-        private readonly Json $json
+        private readonly GetBudbeeDataFromOrder $budbeeDataFromOrder
     ) {
     }
 
@@ -19,25 +18,7 @@ class PrintAllLabelsButton
      */
     public function beforeSetLayout(OrderView $subject): void
     {
-        $order = $subject->getOrder();
-
-        if (!in_array($order->getStatus(), [
-            ORDER::STATE_COMPLETE,
-            ORDER::STATE_PROCESSING,
-            ORDER::STATE_CLOSED
-        ])) {
-            return;
-        }
-
-        try {
-            $shippingData = $this->json->unserialize($order->getWexoShippingData());
-            $parcel = $shippingData['budbee']['parcel'][0]['labelUrl'] ?? null;
-            $isHomeDelivery = isset($shippingData['budbee']['order']['homeDelivery']);
-        } catch (\InvalidArgumentException) {
-            return;
-        }
-
-        if (!$parcel || !$isHomeDelivery) {
+        if (!$this->budbeeDataFromOrder->get($subject)) {
             return;
         }
 
