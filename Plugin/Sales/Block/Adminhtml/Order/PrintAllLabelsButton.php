@@ -33,7 +33,7 @@ class PrintAllLabelsButton
             $shippingData = $this->json->unserialize($order->getWexoShippingData());
             $parcel = $shippingData['budbee']['parcel'][0]['labelUrl'] ?? null;
             $isHomeDelivery = isset($shippingData['budbee']['order']['homeDelivery']);
-        } catch (\Exception) {
+        } catch (\InvalidArgumentException) {
             return;
         }
 

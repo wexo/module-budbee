@@ -70,10 +70,10 @@ class AddTrackingUrl
     /**
      * Grabs the tracking value from the url
      *
-     * @param $trackingUrl
+     * @param string $trackingUrl
      * @return string
      */
-    public function getTrackingNumberFromUrl($trackingUrl): string
+    public function getTrackingNumberFromUrl(string $trackingUrl): string
     {
         $parts = explode('/', rtrim($trackingUrl, '/'));
         return end($parts);
