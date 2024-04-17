@@ -34,6 +34,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
 {
     private const DELIVERY_TYPE_HOME = 1;
     private const DELIVERY_TYPE_BOX = 2;
+    private const TRACKING_URL = "https://bdb.ee/";
     public $_code = self::TYPE_NAME;
 
     /**
@@ -168,7 +169,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
             }
 
             $requestData = $request->getData();
-            $postCode = str_replace(' ', '', $requestData['dest_postcode']);
+            $postCode = str_replace(' ', '', $requestData['dest_postcode'] ?? '');
             $destinationCountryId = $requestData['dest_country_id'];
 
 
@@ -360,5 +361,19 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
     public function isTrackingAvailable(): bool
     {
         return true;
+    }
+
+    /**
+     * Returns the full tracking url
+     *
+     * @param string $trackingNumber
+     * @return array
+     */
+    public function getTrackingInfo(string $trackingNumber): array
+    {
+        return [
+            'title' => $this->_code,
+            'number' => self::TRACKING_URL . $trackingNumber
+        ];
     }
 }

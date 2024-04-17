@@ -10,7 +10,12 @@ define([
     return AbstractParcelShop.extend({
         defaults: {
             parcelShopSearcher: parcelShopSearcher,
-            label: $t('Find a Budbee Box')
+            label: $t('Find a Budbee Box'),
+            modalTemplate: 'Wexo_Budbee/parcel-shop/popup',
+            modalItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-entry',
+            modalListItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-list-entry',
+            chosenItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-entry',
+            budbeeConfig: window.checkoutConfig.budbee_config
         },
 
         initialize: function () {
@@ -28,12 +33,10 @@ define([
         _saveParcelShop: function () {
             this._super();
             let parcelShop = this.wexoShippingData().parcelShop;
-            let budbeeConfig = window.checkoutConfig.budbee_config;
             if(parcelShop){
                 let shippingMethod = this.shippingMethod();
-                let intervalIsDynamic = budbeeConfig.box_interval_is_dynamic
                 let parcelShopTitle = shippingMethod.method_title + '\n';
-                if (intervalIsDynamic) {
+                if (this.budbeeConfig.box_interval_is_dynamic) {
                     parcelShopTitle += parcelShop.time_label;
                 } else {
                     parcelShopTitle += parcelShop.company_name;
@@ -55,6 +58,10 @@ define([
                     .replace('%1', this.parcelShops().length)
                     .replace('%2', this.wexoShippingData().postcode);
             }, this);
+        },
+
+        getCompanyName: function(company_name, time_label) {
+            return this.budbeeConfig.box_interval_is_dynamic ? time_label : company_name;
         },
 
         /**
@@ -85,6 +92,10 @@ define([
             } catch (e) {
                 return '';
             }
-        }
+        },
+
+        getModalListItemTemplate: function() {
+            return this.modalListItemTemplate;
+        },
     });
 });

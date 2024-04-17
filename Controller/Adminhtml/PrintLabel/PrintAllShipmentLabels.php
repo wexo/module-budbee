@@ -13,31 +13,13 @@ use Wexo\Budbee\Model\Api;
 
 class PrintAllShipmentLabels extends Action
 {
-    /**
-     * @var Api
-     */
-    private Api $api;
-
-    /**
-     * @var OrderRepositoryInterface
-     */
-    protected OrderRepositoryInterface $orderRepository;
-
-    /**
-     * @var FileFactory
-     */
-    protected FileFactory $fileFactory;
-
     public function __construct(
         Context $context,
-        Api $api,
-        OrderRepositoryInterface $orderRepository,
-        FileFactory $fileFactory
+        private readonly Api $api,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly FileFactory $fileFactory,
     ) {
         parent::__construct($context);
-        $this->api = $api;
-        $this->orderRepository = $orderRepository;
-        $this->fileFactory = $fileFactory;
     }
 
     /**

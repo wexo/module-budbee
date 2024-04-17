@@ -3,19 +3,13 @@
 namespace Wexo\Budbee\Plugin\Sales\Block\Adminhtml\Shipment;
 
 use Magento\Shipping\Block\Adminhtml\View as ShippingView;
-use Magento\Sales\Api\ShipmentRepositoryInterface;
+use Wexo\Budbee\Model\Data\GetBudbeeDataFromOrder;
 
 class PrintLabel
 {
-    /**
-     * @var ShipmentRepositoryInterface
-     */
-    protected ShipmentRepositoryInterface $shipmentRepository;
-
     public function __construct(
-        ShipmentRepositoryInterface $shipmentRepository
+        private readonly GetBudbeeDataFromOrder $budbeeDataFromOrder
     ) {
-        $this->shipmentRepository = $shipmentRepository;
     }
 
     /**
@@ -24,6 +18,10 @@ class PrintLabel
      */
     public function beforeSetLayout(ShippingView $subject): void
     {
+        if (!$this->budbeeDataFromOrder->get($subject)) {
+            return;
+        }
+
         $subject->addButton(
             'print_shipment_label',
             [

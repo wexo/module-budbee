@@ -1,0 +1,6 @@
+<div class="company">
+    <span data-bind="html: $parent.getCompanyName(company_name, time_label)"></span>
+</div>
+<div class="address">
+    <span class="address" data-bind="text: [street_name, zip_code, city].join(', ')"></span>
+</div>
