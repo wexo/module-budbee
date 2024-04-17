@@ -13,8 +13,10 @@ define([
         }
         $('body').trigger('processStart');
         let shippingAddress = quote.shippingAddress();
+        let postCode = wexoShippingData.postcode.replace(/\s/g, '');
+
         return storage.get('/rest/V1/wexo-budbee/get-parcel-shops?' + $.param({
-            zip: wexoShippingData.postcode,
+            zip: postCode,
             country_code: shippingCountryId,
         })).always(function() {
             currentRequest = null;
