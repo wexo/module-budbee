@@ -11,9 +11,7 @@ define([
         defaults: {
             parcelShopSearcher: parcelShopSearcher,
             label: $t('Find a Budbee Box'),
-            modalTemplate: 'Wexo_Budbee/parcel-shop/popup',
             modalItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-entry',
-            modalListItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-list-entry',
             chosenItemTemplate: 'Wexo_Budbee/parcel-shop/parcel-shop-entry',
             budbeeConfig: window.checkoutConfig.budbee_config
         },
@@ -92,10 +90,6 @@ define([
             } catch (e) {
                 return '';
             }
-        },
-
-        getModalListItemTemplate: function() {
-            return this.modalListItemTemplate;
         },
     });
 });
