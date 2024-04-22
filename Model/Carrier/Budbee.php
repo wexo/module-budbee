@@ -34,7 +34,7 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
 {
     private const DELIVERY_TYPE_HOME = 1;
     private const DELIVERY_TYPE_BOX = 2;
-    private const TRACKING_URL = "https://bdb.ee/";
+    private const TRACKING_URL = "https://tracking.budbee.com/";
     public $_code = self::TYPE_NAME;
 
     /**
