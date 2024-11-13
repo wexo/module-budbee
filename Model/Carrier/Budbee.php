@@ -214,10 +214,6 @@ class Budbee extends AbstractCarrier implements BudbeeInterface
                     continue;
                 }
 
-                if (!$this->budbeeApi->getIsPostcodeValidated($destinationCountryId, $postCode)) {
-                    continue;
-                }
-
                 $availableLockers = $this->budbeeApi->getAvailableLockers(
                     $postCode,
                     $destinationCountryId
