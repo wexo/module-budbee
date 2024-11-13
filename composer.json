@@ -1,7 +1,7 @@
 {
   "name": "wexo/module-budbee",
   "description": "Budbee component for Wexo Shipping",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "require": {
     "php": "~8.1.0",
     "wexo/module-shipping": "^2.0.0"
