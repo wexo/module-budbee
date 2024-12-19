@@ -28,10 +28,6 @@ define([
             return this;
         },
 
-        _saveParcelShop: function () {
-            this._super();
-        },
-
         /**
          * @returns {*}
          */
