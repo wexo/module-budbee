@@ -28,25 +28,6 @@ define([
             return this;
         },
 
-        _saveParcelShop: function () {
-            this._super();
-            let parcelShop = this.wexoShippingData().parcelShop;
-            if(parcelShop){
-                let shippingMethod = this.shippingMethod();
-                let parcelShopTitle = shippingMethod.method_title + '\n';
-                if (this.budbeeConfig.box_interval_is_dynamic) {
-                    parcelShopTitle += parcelShop.time_label;
-                } else {
-                    parcelShopTitle += parcelShop.company_name;
-                }
-                let selector = shippingMethod.carrier_code + '_' + shippingMethod.method_code;
-                document.querySelector('input[value="' + selector + '"]')
-                    .parentNode
-                    .querySelector('label')
-                    .innerText = parcelShopTitle;
-            }
-        },
-
         /**
          * @returns {*}
          */
